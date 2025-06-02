@@ -81,71 +81,71 @@ export const loginUser = async (req, res) => {
 
     const token = generateToken(user);
 
-    res.cookie("token", token);
-    res.status(200).json({ message: "Login successful", token, user: user });
+    // res.cookie("token", token);//no need in mobile
+    res.status(200).json({ message: "Login successful", token, user: user });//we will just send the token here
   } catch (error) {
     console.error("Error in loginUser:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 };
 
-export const forgotPassword = async (req, res) => {
-  try {
-    const { email } = req.body;
+// export const forgotPassword = async (req, res) => {
+//   try {
+//     const { email } = req.body;
 
-    if (!email) return res.status(400).json({ message: 'Email is required' });
+//     if (!email) return res.status(400).json({ message: 'Email is required' });
 
-    const user = await User.findOne({ Email: email });
-    if (!user) return res.status(404).json({ message: 'User not found' });
+//     const user = await User.findOne({ Email: email });
+//     if (!user) return res.status(404).json({ message: 'User not found' });
 
-    const token = crypto.randomBytes(32).toString('hex');
-    const expiry = Date.now() + 10 * 60 * 1000; // 10 mins
+//     const token = crypto.randomBytes(32).toString('hex');
+//     const expiry = Date.now() + 10 * 60 * 1000; // 10 mins
 
-    user.resetToken = token;
-    user.resetTokenExpiry = expiry;
-    await user.save();
+//     user.resetToken = token;
+//     user.resetTokenExpiry = expiry;
+//     await user.save();
 
-    const resetLink = `https://yourfrontend.com/reset-password?token=${token}`;
+//     const resetLink = `https://yourfrontend.com/reset-password?token=${token}`;
 
-    const transporter = nodemailer.createTransport({
-      service: 'Gmail',
-      auth: {
-        user: 'your_email@gmail.com',
-        pass: 'your_gmail_app_password',
-      },
-    });
+//     const transporter = nodemailer.createTransport({
+//       service: 'Gmail',
+//       auth: {
+//         user: 'your_email@gmail.com',
+//         pass: 'your_gmail_app_password',
+//       },
+//     });
 
-    await transporter.sendMail({
-      from: '"Campus App" <noreply@campus.com>',
-      to: email,
-      subject: 'Password Reset',
-      html: `
-        <p>Hello ${user.FirstName},</p>
-        <p>Click <a href="${resetLink}">here</a> to reset your password. This link will expire in 10 minutes.</p>
-      `,
-    });
+//     await transporter.sendMail({
+//       from: '"Campus App" <noreply@campus.com>',
+//       to: email,
+//       subject: 'Password Reset',
+//       html: `
+//         <p>Hello ${user.FirstName},</p>
+//         <p>Click <a href="${resetLink}">here</a> to reset your password. This link will expire in 10 minutes.</p>
+//       `,
+//     });
 
-    res.json({ message: 'Password reset link sent to email.' });
-  } catch (err) {
-    console.error('Forgot Password Error:', err);
-    res.status(500).json({ message: 'Server error' });
-  }
-};
+//     res.json({ message: 'Password reset link sent to email.' });
+//   } catch (err) {
+//     console.error('Forgot Password Error:', err);
+//     res.status(500).json({ message: 'Server error' });
+//   }
+// };
 
-export const resetPassword = async (req, res) => {
-  const { token, newPassword } = req.body;
+// export const resetPassword = async (req, res) => {
+//   const { token, newPassword } = req.body;
 
-  const user = await userModel.findOne({
-    resetToken: token,
-    resetTokenExpiry: { $gt: Date.now() },
-  });
+//   const user = await userModel.findOne({
+//     resetToken: token,
+//     resetTokenExpiry: { $gt: Date.now() },
+//   });
 
-  if (!user) return res.status(400).json({ message: 'Invalid or expired token' });
+//   if (!user) return res.status(400).json({ message: 'Invalid or expired token' });
 
-  user.Password = newPassword; // make sure to hash this if you're using bcrypt
-  user.resetToken = undefined;
-  user.resetTokenExpiry = undefined;
+//   user.Password = newPassword; // make sure to hash this if you're using bcrypt
+//   user.resetToken = undefined;
+//   user.resetTokenExpiry = undefined;
 
-  await user.save();
-  res.json({ message: 'Password reset successful' });
-};
+//   await user.save();
+//   res.json({ message: 'Password reset successful' });
+// };
