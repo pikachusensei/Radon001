@@ -5,11 +5,15 @@ import bcrypt from "bcrypt";
 //admin add question
 
 export const adminAddQues =async(req,res)=>{
-  
-    const {company,questionText,topic}=req.body;
+    console.log("hey question aderd");
+    let {company,questionText,topic}=req.body;
+     
     if(!company || !questionText || !topic)
     return res.status(400).send("All fields are required");
     try {
+      company=company?.trim();
+      questionText=questionText?.trim();
+      topic=topic?.trim();
     const newQuestion=await questionModel.create({
       company,
       questionText,
