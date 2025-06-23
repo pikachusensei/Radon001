@@ -4,6 +4,8 @@ import { generateToken } from "../utils/generate_key.js";
 import crypto from "crypto";
 import { sendEmail } from "../middleware/Email.js";
 import nodemailer from "nodemailer";
+
+let tempRegistrations={};
 // Register User
 export const registerUser = async (req, res) => {
   try {
@@ -29,7 +31,7 @@ export const registerUser = async (req, res) => {
 
     const profileImage = `https://api.dicebear.com/9.x/croodles/svg?seed=${FirstName}`;
     const verificationToken=Math.floor(100000+Math.random() * 9000000).toString();
-    const newUser = await userModel.create({
+    tempRegistrations[Email]={
       FirstName,
       LastName,
       University,
@@ -39,12 +41,11 @@ export const registerUser = async (req, res) => {
       profileImage,
       verificationToken,
 
-    });
+    };
 
     await sendEmail(Email,verificationToken);
 
     res.status(201).json({
-      user: newUser,
       message: "User registered successfully",
     });
   } catch (error) {
@@ -55,12 +56,26 @@ export const registerUser = async (req, res) => {
 export const verifyEmail=async(req,res)=>{
   try {
     const {Email,verificationToken}=req.body;
-    const user=await userModel.findOne({Email});
-    if(!user) return res.status(400).json({message:"User not found"});
-    if(user.verificationToken!==verificationToken) return res.status(400).json({message:"Invalid verification token"});
-    user.isVerified=true;
-    await user.save();
-    res.status(200).json({message:"Email verified successfully"});
+    const tempUser =tempRegistrations[Email];
+    if(!tempUser ) return res.status(400).json({message:"User not found or expired!"});
+    if(tempUser .verificationToken!==verificationToken) return res.status(400).json({message:"Invalid verification token"});
+
+    
+    const newUser = await userModel.create({
+      FirstName: tempUser .FirstName,
+      LastName: tempUser .LastName,
+      University: tempUser .University,
+      GraduationYear: tempUser .GraduationYear,
+      Email: tempUser .Email,
+      Password: tempUser .Password,//already hashed
+      profileImage: tempUser .profileImage,
+      isVerified: true
+    });
+
+    // Cleanup temp
+    delete tempRegistrations[Email];
+
+    res.status(200).json({message:"Email verified successfully",user: newUser});
   } catch (error) {
     console.error("Error in verifyEmail:");
     res.status(500).json({ message: "Internal server error" });
