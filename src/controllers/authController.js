@@ -62,7 +62,7 @@ export const resendCode=async(req,res)=>{
 
     const newToken=Math.floor(100000+Math.random() * 9000000).toString();
     tempUser.verificationToken=newToken;
-    await sendEmail(Email,newToken);
+    await sendEmail(tempUser.Email,newToken);
     res.status(200).json({message:"Verification code resent successfully"});
   }catch(error){
     console.error("Error in resendCode:",error);
