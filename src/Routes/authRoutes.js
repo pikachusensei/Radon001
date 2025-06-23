@@ -16,6 +16,6 @@ router.post("/register",registerUser);
 
 router.post("/login",loginUser);
 router.post("/verifyEmail",verifyEmail);
-router.post('/resendCode', resendCode);
+router.post('/resendVerificationEmail', resendCode);
 
 export default router;

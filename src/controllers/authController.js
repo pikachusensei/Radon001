@@ -62,11 +62,11 @@ export const resendCode=async(req,res)=>{
 
     const newToken=Math.floor(100000+Math.random() * 9000000).toString();
     tempUser.verificationToken=newToken;
-    console.log("📧 Resending to:", tempUser.Email, "with token:", newToken);
+    console.log("Resending to:", tempUser.Email, "with token:", newToken);
     await sendEmail(tempUser.Email,newToken);
     res.status(200).json({message:"Verification code resent successfully"});
   }catch(error){
-    console.log("📧 Resending to:", tempUser.Email, "with token:", newToken);
+    console.log("Resending to:", tempUser.Email, "with token:", newToken);
 
     console.error("Error in resendCode:",error);
     res.status(500).json({message:"Internal server error"});
