@@ -5,7 +5,7 @@ import crypto from "crypto";
 import { sendEmail } from "../middleware/Email.js";
 import nodemailer from "nodemailer";
 
-let tempRegistrations={};
+let tempRegistrations={};//js object;
 // Register User
 export const registerUser = async (req, res) => {
   try {
@@ -53,6 +53,23 @@ export const registerUser = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
+export const resendCode=async(req,res)=>{
+  try{
+    const {Email}=req.body;
+    const tempUser=tempRegistrations[Email];
+    if(!tempUser) return res.status(400).json({message:"User not found or expired!"});
+
+    const newToken=Math.floor(100000+Math.random() * 9000000).toString();
+    tempUser.verificationToken=newToken;
+    await sendEmail(Email,newToken);
+    res.status(200).json({message:"Verification code resent successfully"});
+  }catch(error){
+    console.error("Error in resendCode:",error);
+    res.status(500).json({message:"Internal server error"});
+  }
+};
+
 export const verifyEmail=async(req,res)=>{
   try {
     const {Email,verificationToken}=req.body;
