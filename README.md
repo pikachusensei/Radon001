@@ -64,7 +64,7 @@ git clone https://github.com/pikachusensei/Radon001.git
 - npm install
 - touch .env
 
-  ## For now, you can't see the frontend code due to some ongoing development.
+### The Frontend Repo [https://github.com/pikachusensei/Radon001-frontend]
 
 ### Frontend Setup
 - cd ../frontend
