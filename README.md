@@ -57,22 +57,22 @@ Campus App is a mobile application designed to assist college students with plac
 ### Backend Setup
 
 git clone https://github.com/pikachusensei/Radon001.git
-cd backend
-npm install
-touch .env
+- cd backend
+- npm install
+- touch .env
 
 ### Frontend Setup
-cd ../frontend
-npm install
-touch .env
+- cd ../frontend
+- npm install
+- touch .env
 
 
 ### Run on Android
-npx react-native run-android
+- npx react-native run-android
 
 ### APK Build
-cd android
-./gradlew assembleRelease
+- cd android
+- ./gradlew assembleRelease
 
 
 You can now share and install the APK without USB connection.
@@ -82,9 +82,9 @@ You can now share and install the APK without USB connection.
 
 ## Author
 
-Shreyansh Singh  
-GitHub: [@pikachusensei](https://github.com/pikachusensei)  
-Email: sshreyansh962@gmail.com
+- Shreyansh Singh  
+- GitHub: [@pikachusensei](https://github.com/pikachusensei)  
+- Email: sshreyansh962@gmail.com
 
 ## License
 
