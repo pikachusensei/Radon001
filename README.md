@@ -1,6 +1,9 @@
 # Campus App
 
+# Click here to download the apk []
+
 Campus App is a mobile application designed to assist college students with placement preparation, semester exam resources, feedback submission, and more. It features user authentication, email verification, admin controls, and a modular dashboard interface.
+
 
 ---
 
@@ -44,11 +47,11 @@ Campus App is a mobile application designed to assist college students with plac
 - jsonwebtoken
 - nodemailer
 - dotenv
-- cron (to keep Render backend awake)
+- cron (to keep the Render backend awake)
 
 ### Deployment
 - Backend: Render
-- Frontend: Built into standalone APK for Android
+- Frontend: Built into a standalone APK for Android
 
 ---
 
@@ -60,6 +63,8 @@ git clone https://github.com/pikachusensei/Radon001.git
 - cd backend
 - npm install
 - touch .env
+
+  ## For now, you can't see the frontend code due to some ongoing development.
 
 ### Frontend Setup
 - cd ../frontend
