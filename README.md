@@ -1,4 +1,5 @@
 # Campus App
+### The Frontend Repo [https://github.com/pikachusensei/Radon001-frontend]
 
 # Click here to download the apk [https://drive.google.com/file/d/1D0kbo9T0b4goy5L9_qv5DXiLyEbKFNea/view?usp=sharing]
 
@@ -63,8 +64,6 @@ git clone https://github.com/pikachusensei/Radon001.git
 - cd backend
 - npm install
 - touch .env
-
-### The Frontend Repo [https://github.com/pikachusensei/Radon001-frontend]
 
 ### Frontend Setup
 - cd ../frontend
